@@ -8,9 +8,9 @@ import 'package:injectable/injectable.dart';
 @singleton
 @injectable
 class ApiManger {
-  Future<List<ProductDto>?> getProduct() async {
+  Future<List<ProductDto>?> getProduct(num skip) async {
     try {
-      Uri url = Uri.https('dummyjson.com', 'products');
+      Uri url = Uri.https('dummyjson.com', 'products', {"skip": "$skip"});
       http.Response responseProducts = await http.get(url);
       var json = jsonDecode(responseProducts.body);
       return ProductResponse.fromJson(json).products;

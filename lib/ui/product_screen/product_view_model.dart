@@ -16,19 +16,18 @@ class ProductViewModel extends Cubit<ProductState> {
 
   void getProduct() async {
     emit(Loading());
-    products = await productUseCase.getProduct();
+    products = await productUseCase.getProduct(skip);
     emit(Success(products));
   }
 
-  void setProductController() {
-    productControler.addListener(() {
-      if (productControler.position.atEdge) {
-        bool isTop;
-        if (productControler.position.pixels == 0) {
-          isTop = true;
-        }
-      }
-    });
+  void loadMore() async {
+    skip += 30;
+    List<Product>? more = await productUseCase.getProduct(skip);
+    if (more!.isEmpty) {
+      return;
+    }
+    products?.addAll(more ?? []);
+    emit(Success(products));
   }
 }
 

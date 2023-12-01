@@ -9,7 +9,7 @@ class GetProductUseCase {
   @factoryMethod
   GetProductUseCase(this.repository);
 
-  Future<List<Product>?> getProduct() {
-    return repository.getProduct();
+  Future<List<Product>?> getProduct(num skip) {
+    return repository.getProduct(skip);
   }
 }

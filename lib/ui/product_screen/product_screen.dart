@@ -24,6 +24,7 @@ class _ProductScreenState extends State<ProductScreen> {
   }
 
   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -48,9 +49,9 @@ class _ProductScreenState extends State<ProductScreen> {
                 {
                   return Center(
                       child: Text(
-                    'some thing went wrong',
-                    style: TextStyle(fontSize: 14),
-                  ));
+                        'some thing went wrong',
+                        style: TextStyle(fontSize: 14),
+                      ));
                 }
               case Success():
                 {
@@ -63,30 +64,30 @@ class _ProductScreenState extends State<ProductScreen> {
                           children: [
                             Expanded(
                                 child: TextField(
-                              maxLines: 1,
-                              decoration: InputDecoration(
-                                prefixIcon:
+                                  maxLines: 1,
+                                  decoration: InputDecoration(
+                                    prefixIcon:
                                     Image.asset("assets/images/search.png"),
-                                hintText: 'what do you search for?',
-                                hintStyle: GoogleFonts.poppins(
-                                  color: Color(0xFF06004F).withOpacity(.6),
-                                ),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(25),
-                                    borderSide: BorderSide(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        width: 1)),
-                                enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(35),
-                                    borderSide: BorderSide(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        width: 1)),
-                              ),
-                            )),
+                                    hintText: 'what do you search for?',
+                                    hintStyle: GoogleFonts.poppins(
+                                      color: Color(0xFF06004F).withOpacity(.6),
+                                    ),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(25),
+                                        borderSide: BorderSide(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            width: 1)),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(35),
+                                        borderSide: BorderSide(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            width: 1)),
+                                  ),
+                                )),
                             SizedBox(
                               width: 3,
                             ),
@@ -103,17 +104,28 @@ class _ProductScreenState extends State<ProductScreen> {
                           height: 24,
                         ),
                         Expanded(
-                            child: GridView.builder(
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  childAspectRatio: 2 / 2.58,
-                                  mainAxisSpacing: 15,
-                                  crossAxisSpacing: 15),
-                          itemBuilder: (context, index) => ItemWedget(
-                            product: state.products?[index],
+                            child: NotificationListener<ScrollNotification>(
+                          onNotification: (notification) {
+                            if (notification.metrics.pixels ==
+                                    notification.metrics.maxScrollExtent &&
+                                notification is ScrollUpdateNotification) {
+                              viewModel.loadMore();
+                            }
+                            return true;
+                          },
+                          child: GridView.builder(
+                            controller: viewModel.productControler,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    childAspectRatio: 2 / 2.58,
+                                    mainAxisSpacing: 15,
+                                    crossAxisSpacing: 15),
+                            itemBuilder: (context, index) => ItemWedget(
+                              product: state.products?[index],
+                            ),
+                            itemCount: state.products?.length,
                           ),
-                          itemCount: 20,
                         ))
                       ],
                     ),

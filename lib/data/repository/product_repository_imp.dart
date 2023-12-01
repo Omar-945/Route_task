@@ -11,7 +11,7 @@ class ProductRepositoryImp extends ProductRepository {
   ProductRepositoryImp(this.source);
 
   @override
-  Future<List<Product>?> getProduct() {
-    return source.getProduct();
+  Future<List<Product>?> getProduct(num skip) {
+    return source.getProduct(skip);
   }
 }

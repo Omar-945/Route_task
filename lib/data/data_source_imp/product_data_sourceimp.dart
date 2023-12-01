@@ -12,8 +12,8 @@ class ProductDataSourceImp extends ProductDataSource {
   ProductDataSourceImp(this.apiManger);
 
   @override
-  Future<List<Product>?> getProduct() async {
-    List<ProductDto>? productDto = await apiManger.getProduct();
+  Future<List<Product>?> getProduct(num skip) async {
+    List<ProductDto>? productDto = await apiManger.getProduct(skip);
     List<Product>? products =
         productDto?.map((productDto) => productDto.toProduct()).toList();
     return products;

@@ -1,5 +1,5 @@
 import 'package:e_comerce/domain/models/Product.dart';
 
 abstract class ProductDataSource {
-  Future<List<Product>?> getProduct();
+  Future<List<Product>?> getProduct(num skip);
 }
